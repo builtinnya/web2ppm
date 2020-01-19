@@ -3,7 +3,7 @@ FROM golang:1.13.5
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
-ENV WORK_DIR /go/src/github.com/builtinnya/himl
+ENV WORK_DIR /go/src/github.com/builtinnya/web2ppm
 RUN mkdir -p "${WORK_DIR}"
 
 ENV CONTAINER_GROUP nya

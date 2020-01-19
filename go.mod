@@ -1,4 +1,4 @@
-module github.com/builtinnya/himl
+module github.com/builtinnya/web2ppm
 
 go 1.13
 

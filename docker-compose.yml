@@ -1,8 +1,8 @@
 version: "3"
 services:
-  himl:
+  web2ppm:
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - .:/go/src/github.com/builtinnya/himl
+      - .:/go/src/github.com/builtinnya/web2ppm
