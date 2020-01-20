@@ -18,6 +18,12 @@ $ go get -u github.com/builtinnya/web2ppm/cmd/web2ppm
 $ web2ppm https://google.com > google.ppm
 ```
 
+To insert comments:
+
+```bash
+$ web2ppm -c comments.txt https://google.com > google.ppm
+```
+
 ## Development
 
 It is recommended to use [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) on [Visual Studio Code](https://code.visualstudio.com/).
