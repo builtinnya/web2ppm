@@ -2,6 +2,10 @@
 
 >A tiny tool to take a screenshot of an entire web page as [Plain Portable Pixel Map](http://netpbm.sourceforge.net/doc/ppm.html).
 
+## Why
+
+See [How To Build A Blog That Lasts 1000 Years](https://lambdar.me/archives/how-to-build-a-blog-that-lasts-1000-years/) (only Japanese version is currently available.)
+
 ## Installation
 
 ```bash
