@@ -9,9 +9,11 @@ import (
 	"github.com/spakin/netpbm"
 	"github.com/spf13/cobra"
 	"image/png"
+	"io/ioutil"
 	"log"
 	"math"
 	"os"
+	"strings"
 )
 
 func fullScreenshot(urlstr string, quality int64, res *[]byte) chromedp.Tasks {
@@ -50,8 +52,20 @@ func fullScreenshot(urlstr string, quality int64, res *[]byte) chromedp.Tasks {
 	}
 }
 
-func execRootCmd(cmd *cobra.Command, args []string) error {
+type cmdParams struct {
+	Comments string
+}
+
+func execRootCmd(cmd *cobra.Command, args []string, params cmdParams) error {
 	urlstr := args[0]
+	var comments []string
+	if params.Comments != "" {
+		content, err := ioutil.ReadFile(params.Comments)
+		if err != nil {
+			return err
+		}
+		comments = strings.Split(strings.TrimSpace(string(content)), "\n")
+	}
 
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.DisableGPU,
@@ -74,8 +88,9 @@ func execRootCmd(cmd *cobra.Command, args []string) error {
 	}
 
 	err = netpbm.Encode(os.Stdout, img, &netpbm.EncodeOptions{
-		Format: netpbm.PPM,
-		Plain:  true,
+		Format:   netpbm.PPM,
+		Comments: comments,
+		Plain:    true,
 	})
 	if err != nil {
 		return err
@@ -85,12 +100,16 @@ func execRootCmd(cmd *cobra.Command, args []string) error {
 }
 
 func newCmd() *cobra.Command {
+	var params cmdParams
 	rootCmd := &cobra.Command{
 		Use:   "web2ppm [flags] <url>",
 		Short: "Takes a screenshot of an entire web page and outputs to stdout as Plain Portable Pixel Map",
 		Args:  cobra.ExactArgs(1),
-		RunE:  execRootCmd,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return execRootCmd(cmd, args, params)
+		},
 	}
+	rootCmd.Flags().StringVarP(&params.Comments, "comments", "c", "", "A file path of comments to be inserted")
 	return rootCmd
 }
 
